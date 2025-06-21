@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TikFinity Overlay</title>
+
+  <!-- iOS fullscreen support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TikFinity" />
+  <link rel="apple-touch-icon" href="icon.png" /> <!-- Replace with actual icon if needed -->
+
   <style>
     html, body {
       margin: 0;
@@ -27,7 +34,7 @@
 
     .pane iframe {
       position: absolute;
-      top: -40px; /* hide TikFinity header */
+      top: -40px; /* Hide TikFinity header */
       left: 0;
       width: 100%;
       height: calc(100% + 40px);
