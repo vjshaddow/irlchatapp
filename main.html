@@ -2,78 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- iOS fullscreen support -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />Add commentMore actions
-  <meta name="apple-mobile-web-app-title" content="TikFinity" />
-  <link rel="apple-touch-icon" href="icon.png" /> <!-- Replace with actual icon if needed -->
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TikFinity Dual View</title>
+
+  <!-- iOS fullscreen support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TikFinity" />
+  <link rel="apple-touch-icon" href="icon.png" /> <!-- Optional: Replace with actual icon -->
+
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       background: black;
-      color: white;
       font-family: sans-serif;
+      color: white;
     }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      width: 100%;
-    }
-
-    .tab-buttons {
+    .tabs {
       display: flex;
       background: #111;
     }
 
-    .tab-buttons button {
+    .tab {
       flex: 1;
-      padding: 10px;
-      border: none;
-      background: #222;
-      color: white;
-      font-size: 16px;
+      text-align: center;
+      padding: 12px;
       cursor: pointer;
+      background: #222;
+      border-bottom: 2px solid #444;
     }
 
-    .tab-buttons button.active {
-      background: #444;
+    .tab.active {
+      background: #000;
+      border-bottom: 2px solid #00ff88;
     }
 
-    .pane {
-      position: relative;
-      height: 40%;
-      width: 100%;
+    .content {
+      height: calc(100% - 48px);
     }
 
     .iframe-container {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
-      border: none;
-      display: none;
     }
 
-    .iframe-container.active {
-      display: block;
-    }
-
-    #bottom-pane {
-      height: 60%;
-      position: relative;
-    }
-
-    #bottom-pane iframe {
-      position: absolute;
-      top: 0;
+    .iframe-container iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -81,39 +57,34 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Tabs -->
-    <div class="tab-buttons">
-      <button id="giftTab" class="active" onclick="showPane('gift')">🎁 Gifts</button>
-      <button id="previewTab" onclick="showPane('preview')">📺 Preview</button>
-    </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('preview')">Preview</div>
+    <div class="tab" onclick="showTab('gifts')">Gifts</div>
+    <div class="tab" onclick="showTab('chat')">Chat</div>
+  </div>
 
-    <!-- Top pane -->
-    <div class="pane">
-      <iframe id="giftIframe" class="iframe-container active" src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=2"></iframe>
-      <iframe id="previewIframe" class="iframe-container" src="http://142.93.242.101:8080/52900630-4de8-40cb-9b31-4672d5e1f631.html"></iframe>
+  <div class="content">
+    <div class="iframe-container" id="preview" style="display: block;">
+      <iframe src="http://174.138.124.76:8080/52900630-4de8-40cb-9b31-4672d5e1f631.html" allowfullscreen></iframe>
     </div>
-
-    <!-- Bottom pane: Chat -->
-    <div class="pane" id="bottom-pane">
+    <div class="iframe-container" id="gifts" style="display: none;">
+      <iframe src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=2"></iframe>
+    </div>
+    <div class="iframe-container" id="chat" style="display: none;">
       <iframe src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=1"></iframe>
     </div>
   </div>
 
   <script>
-    function showPane(pane) {
-      document.getElementById('giftIframe').classList.remove('active');
-      document.getElementById('previewIframe').classList.remove('active');
-      document.getElementById('giftTab').classList.remove('active');
-      document.getElementById('previewTab').classList.remove('active');
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.iframe-container');
 
-      if (pane === 'gift') {
-        document.getElementById('giftIframe').classList.add('active');
-        document.getElementById('giftTab').classList.add('active');
-      } else {
-        document.getElementById('previewIframe').classList.add('active');
-        document.getElementById('previewTab').classList.add('active');
-      }
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.style.display = 'none');
+
+      document.querySelector(`.tab[onclick*="${tabId}"]`).classList.add('active');
+      document.getElementById(tabId).style.display = 'block';
     }
   </script>
 </body>
