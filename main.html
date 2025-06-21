@@ -3,21 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TikFinity Overlay</title>
-
-  <!-- iOS fullscreen support -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="TikFinity" />
-  <link rel="apple-touch-icon" href="icon.png" /> <!-- Replace with actual icon if needed -->
-
+  <title>TikFinity Dual View</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       background: black;
-      overflow: hidden;
+      color: white;
+      font-family: sans-serif;
     }
 
     .container {
@@ -27,37 +21,93 @@
       width: 100%;
     }
 
-    .pane {
-      overflow: hidden;
-      position: relative;
+    .tab-buttons {
+      display: flex;
+      background: #111;
     }
 
-    .pane iframe {
+    .tab-buttons button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: #222;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .tab-buttons button.active {
+      background: #444;
+    }
+
+    .pane {
+      position: relative;
+      height: 40%;
+      width: 100%;
+    }
+
+    .iframe-container {
       position: absolute;
-      top: -40px; /* Hide TikFinity header */
+      top: -40px;
       left: 0;
       width: 100%;
       height: calc(100% + 40px);
       border: none;
+      display: none;
     }
 
-    #top-pane {
-      height: 40%;
+    .iframe-container.active {
+      display: block;
     }
 
     #bottom-pane {
       height: 60%;
     }
+
+    #bottom-pane iframe {
+      position: absolute;
+      top: -40px;
+      width: 100%;
+      height: calc(100% + 40px);
+      border: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="pane" id="top-pane">
-      <iframe src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=2"></iframe>
+    <!-- Tabs -->
+    <div class="tab-buttons">
+      <button id="giftTab" class="active" onclick="showPane('gift')">🎁 Gifts</button>
+      <button id="previewTab" onclick="showPane('preview')">📺 Preview</button>
     </div>
+
+    <!-- Top pane -->
+    <div class="pane">
+      <iframe id="giftIframe" class="iframe-container active" src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=2"></iframe>
+      <iframe id="previewIframe" class="iframe-container" src="http://142.93.242.101:8080/52900630-4de8-40cb-9b31-4672d5e1f631.html"></iframe>
+    </div>
+
+    <!-- Bottom pane: Chat -->
     <div class="pane" id="bottom-pane">
       <iframe src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=1"></iframe>
     </div>
   </div>
+
+  <script>
+    function showPane(pane) {
+      document.getElementById('giftIframe').classList.remove('active');
+      document.getElementById('previewIframe').classList.remove('active');
+      document.getElementById('giftTab').classList.remove('active');
+      document.getElementById('previewTab').classList.remove('active');
+
+      if (pane === 'gift') {
+        document.getElementById('giftIframe').classList.add('active');
+        document.getElementById('giftTab').classList.add('active');
+      } else {
+        document.getElementById('previewIframe').classList.add('active');
+        document.getElementById('previewTab').classList.add('active');
+      }
+    }
+  </script>
 </body>
 </html>
