@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TikFinity Overlay</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .pane {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pane iframe {
+      position: absolute;
+      top: -40px; /* hide TikFinity header */
+      left: 0;
+      width: 100%;
+      height: calc(100% + 40px);
+      border: none;
+    }
+
+    #top-pane {
+      height: 40%;
+    }
+
+    #bottom-pane {
+      height: 60%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="pane" id="top-pane">
+      <iframe src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=2"></iframe>
+    </div>
+    <div class="pane" id="bottom-pane">
+      <iframe src="https://tikfinity.zerody.one/widget/activity-feed?cid=1206309&did=1"></iframe>
+    </div>
+  </div>
+</body>
+</html>
